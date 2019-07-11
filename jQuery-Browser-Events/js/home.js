@@ -37,3 +37,25 @@ $("#louisvilleButton").on("click", function () {
     $("#louisvilleInfoDiv").show();
 });
 
+// Displaying the weather
+$("#akronWeatherButton").on("click", function(){
+    $("#akronWeather").toggle("slow");
+});
+
+$("#minneapolisWeatherButton").on("click", function(){
+    $("#minneapolisWeather").toggle("slow");
+});
+
+$("#louisvilleWeatherButton").on("click", function(){
+    $("#louisvilleWeather").toggle("slow");
+});
+
+// Changing table row color on hover
+$("tr").hover(
+    function(){
+        $(this).children("td").css("background-color", "WhiteSmoke");
+    },
+    function(){
+        $(this).children("td").css("background-color", "");
+    }
+);

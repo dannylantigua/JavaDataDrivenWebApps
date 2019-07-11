@@ -4,6 +4,7 @@ This repository holds exercises of Web Services, buliding Front-End APIs, Server
 exercises. The file structure is the following:
 
 1. jQuery-HTML-Elements. Playing around with jQuery.
+2. jQuery-Browser-Events. Playing with jQuery events.
 
 By Danny Lantigua
 lantiguagrullon@gmail.com
