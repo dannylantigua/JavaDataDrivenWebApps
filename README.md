@@ -1,4 +1,4 @@
-## Java Date Driven Web Apps
+## Java Data Driven Web Apps
 
 This repository holds exercises of Web Services, buliding Front-End APIs, Server side programming, Relational Databases and building full stack web app 
 exercises. The file structure is the following:
