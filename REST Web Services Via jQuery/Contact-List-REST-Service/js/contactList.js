@@ -35,6 +35,38 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('#edit-button').click(function(event){
+        $.ajax({
+            type: 'PUT',
+            url: 'http://localhost:8080/contact/' + $('#edit-contact-id').val(),
+            data: JSON.stringify({
+                contactId: $('#edit-contact-id').val(),
+                firstName: $('#edit-first-name').val(),
+                lastName: $('#edit-last-name').val(),
+                company: $('#edit-company').val(),
+                phone: $('#edit-phone').val(),
+                email: $('#edit-email').val()
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            'datatype': 'json',
+            success: function(){
+                $('#errorMessage').empty();
+                hideEditForm();
+                loadContacts();
+            },
+            error: function(){
+                $('#errorMessages')
+                .append($('<li>')
+                .attr({class: 'list-group-item list-group-item-danger'})
+                .text('Error updating the contact.'));
+            }
+        })
+    });
+
 });
 
 function loadContacts() {
