@@ -2,6 +2,12 @@ $(document).ready(function () {
     loadContacts();
 
     $('#add-button').click(function(event){
+
+        var haveValidationErrors = checkAndDisplayValidationErrors($('#add-form').find('input'));
+        if(haveValidationErrors) {
+            return false;
+        }
+
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/contact',
@@ -37,6 +43,12 @@ $(document).ready(function () {
     });
 
     $('#edit-button').click(function(event){
+
+        var haveValidationErrors = checkAndDisplayValidationErrors($('#edit-form').find('input'));
+        if(haveValidationErrors) {
+            return false;
+        }
+
         $.ajax({
             type: 'PUT',
             url: 'http://localhost:8080/contact/' + $('#edit-contact-id').val(),
@@ -67,6 +79,8 @@ $(document).ready(function () {
         })
     });
 
+    
+
 });
 
 function loadContacts() {
@@ -86,7 +100,7 @@ function loadContacts() {
                     row += '<td>' + name + '</td>';
                     row += '<td>' + company + '</td>';
                     row += '<td><a onclick="showEditForm(' + contactId + ')">Edit</a></td>';
-                    row += '<td><a>Delete</a></td>';
+                    row += '<td><a onclick="deleteContact('+ contactId +')">Delete</a></td>';
                     row += '</tr>';
 
                     contentRows.append(row);
@@ -142,4 +156,41 @@ function hideEditForm(){
     // Hide / show
     $('#editFormDiv').hide();
     $('#contactTableDiv').show();
+}
+
+function deleteContact(contactId){
+    $.ajax({
+        type: 'DELETE',
+        url: 'http://localhost:8080/contact/' + contactId,
+        succcess: function(){
+            loadContacts();
+        },
+        error: function(){
+            $('#errorMessages')
+                .append($('<li>')
+                .attr({class: 'list-group-item list-group-item-danger'})
+                .text('Error deleting contact.'));
+        }
+    })
+}
+
+function checkAndDisplayValidationErrors(input) {
+    $('#errorMessages').empty();
+
+    var errorMessages = [];
+    input.each(function() {
+        if(!this.validity.valid) {
+            var errorField = $('Label[for=' + this.id + ']').text();
+            errorMessages.push(errorField + ' ' + this.validationMessage);
+        }
+    });
+
+    if (errorMessages.length > 0) {
+        $.each(errorMessages, function(index, message){
+            $('#errorMessages').append($('<li>').attr({class: 'list-group-item list-group-item-danger'}).text(message));
+        });
+        return true;
+    } else {
+        return false;
+    }
 }
